@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neon Snake — one prompt, one game</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    background: #050510;
+    color: #e8f6ff;
+    font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    user-select: none;
+  }
+  h1 {
+    font-size: 44px;
+    letter-spacing: 10px;
+    color: #39ff88;
+    text-shadow: 0 0 12px #39ff88, 0 0 42px #00e5ff;
+    margin-bottom: 6px;
+  }
+  .sub {
+    font-size: 15px;
+    letter-spacing: 3px;
+    color: #8fa8c8;
+    margin-bottom: 18px;
+  }
+  #hud {
+    width: 720px;
+    max-width: 92vw;
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  #hud b { color: #ffe14d; text-shadow: 0 0 10px #ffe14d; }
+  #hud .speed b { color: #ff5df2; text-shadow: 0 0 10px #ff5df2; }
+  #wrap { position: relative; width: 720px; height: 720px; max-width: 92vw; max-height: 92vw; }
+  canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: #070718;
+    border: 2px solid #1de9b6;
+    border-radius: 14px;
+    box-shadow: 0 0 24px rgba(29, 233, 182, .45), 0 0 90px rgba(0, 229, 255, .18), inset 0 0 60px rgba(0, 229, 255, .06);
+  }
+  .overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: rgba(5, 5, 16, .82);
+    border-radius: 14px;
+    z-index: 2;
+  }
+  .overlay h2 {
+    font-size: 52px;
+    letter-spacing: 6px;
+    color: #ff5df2;
+    text-shadow: 0 0 18px #ff5df2, 0 0 60px #ff2e63;
+    margin-bottom: 14px;
+  }
+  .overlay p { font-size: 20px; color: #cfe8ff; line-height: 1.7; }
+  .overlay .big { font-size: 26px; color: #ffe14d; }
+  .overlay button {
+    margin-top: 26px;
+    font-family: inherit;
+    font-size: 22px;
+    letter-spacing: 2px;
+    padding: 14px 34px;
+    color: #04140b;
+    background: #39ff88;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 0 22px rgba(57, 255, 136, .7);
+  }
+  .overlay button:hover { background: #7dffb0; }
+  #demoTag {
+    display: none;
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    z-index: 3;
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: #050510;
+    background: #ffe14d;
+    padding: 4px 10px;
+    border-radius: 6px;
+    box-shadow: 0 0 14px rgba(255, 225, 77, .8);
+  }
+  .hint { margin-top: 14px; font-size: 15px; letter-spacing: 2px; color: #6f87a8; }
+  .hint kbd {
+    color: #e8f6ff;
+    border: 1px solid #3a4a63;
+    border-bottom-width: 2px;
+    border-radius: 5px;
+    padding: 1px 7px;
+    background: #101c30;
+  }
+</style>
+</head>
+<body>
+  <h1>NEON SNAKE</h1>
+  <div class="sub">ONE PROMPT &middot; ONE AGENT &middot; ONE GAME</div>
+  <div id="hud">
+    <span>SCORE <b id="score">0</b></span>
+    <span class="speed">SPEED <b id="speed">1.0&times;</b></span>
+    <span>BEST <b id="best">0</b></span>
+  </div>
+  <div id="wrap">
+    <canvas id="game" width="720" height="720"></canvas>
+    <div id="demoTag">DEMO &middot; AI PLAYING</div>
+    <div class="overlay" id="startScreen">
+      <h2>NEON SNAKE</h2>
+      <p>Eat the glowing food. Grow. Go faster.<br>Don't hit the walls &mdash; or yourself.</p>
+      <p class="big">Press SPACE or click START</p>
+      <button id="startBtn">▶ START</button>
+    </div>
+    <div class="overlay" id="overScreen" style="display:none">
+      <h2>GAME OVER</h2>
+      <p class="big">SCORE <span id="finalScore">0</span></p>
+      <p>BEST <span id="finalBest">0</span> &middot; LENGTH <span id="finalLen">0</span></p>
+      <button id="againBtn">↻ PLAY AGAIN</button>
+      <p style="margin-top:16px;font-size:15px;color:#8fa8c8">or press ENTER / SPACE</p>
+    </div>
+  </div>
+  <div class="hint"><kbd>&larr;</kbd><kbd>&uarr;</kbd><kbd>&darr;</kbd><kbd>&rarr;</kbd> or <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> to steer &middot; <kbd>P</kbd> pause</div>
+  <script src="game.js"></script>
+</body>
+</html>
